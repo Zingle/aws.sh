@@ -1,0 +1,5 @@
+# aws.account
+# print AWS account number
+aws.account () {
+    iam.get-user | jq .User.Arn | awk -F: '{print $5}'
+}

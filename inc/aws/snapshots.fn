@@ -1,0 +1,9 @@
+# aws.snapshots [--all|<region>]
+# print list of AWS snapshot ids
+aws.snapshots () {
+    local cmd=ec2.describe-snapshots
+    local query=.Snapshots[].SnapshotId
+    local region=$1
+
+    util.list $cmd $query $region
+}

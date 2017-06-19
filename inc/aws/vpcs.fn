@@ -1,0 +1,9 @@
+# aws.vpcs [--all|<region>]
+# print list of AWS VPC ids
+aws.vpcs () {
+    local cmd=ec2.describe-vpcs
+    local query=.Vpcs[].VpcId
+    local region=$1
+
+    util.list $cmd $query $region
+}

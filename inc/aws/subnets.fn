@@ -1,0 +1,9 @@
+# aws.subnets [--all|<region>]
+# print list of AWS subnet ids
+aws.subnets () {
+    local cmd=ec2.describe-subnets
+    local query=.Subnets[].SubnetId
+    local region=$1
+
+    util.list $cmd $query $region
+}

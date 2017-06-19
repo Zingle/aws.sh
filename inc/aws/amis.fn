@@ -1,0 +1,9 @@
+# aws.amis [--all|<region>]
+# print list of AWS AMI ids
+aws.amis () {
+    local cmd=ec2.describe-images
+    local query='.Images[]|select(.ImageType=="machine")|.ImageId'
+    local region=$1
+
+    util.list $cmd "$query" $region
+}

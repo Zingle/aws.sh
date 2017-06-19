@@ -1,0 +1,5 @@
+# aws.regions
+# print list of AWS region names
+aws.regions () {
+    ec2.describe-regions | jq -r .Regions[].RegionName | sort
+}

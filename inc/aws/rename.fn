@@ -1,0 +1,15 @@
+# aws.rename [<region>] <resource> <name>
+# rename AWS resource, setting the 'name' tag
+aws.rename () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 create-tags \
+        --region "$region" \
+        --resources "$1" \
+        --tags Key=Name,Value="$2"
+}

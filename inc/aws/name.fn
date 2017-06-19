@@ -1,0 +1,17 @@
+# aws.name [<region>] <resource>
+# print the AWS resource 'name' tag
+aws.name () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 describe-tags \
+        --region $region \
+        --filter \
+            Name=resource-id,Values="$1" \
+            Name=key,Values=Name \
+        | jq -r .Tags[0].Value
+}

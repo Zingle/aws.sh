@@ -1,0 +1,15 @@
+# aws.find-region <resource>
+# find and print the region in which a resource resides
+aws.find-region () {
+    local resource="$1"
+    local type=$(util.type "$resource")
+    local fn region
+
+    fn=aws.${type}s
+
+    for region in $(aws.regions); do
+        $fn $region | grep "$resource" &>/dev/null || continue
+        echo $region
+        return
+    done
+}

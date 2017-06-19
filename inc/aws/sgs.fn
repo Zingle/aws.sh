@@ -1,0 +1,9 @@
+# aws.sgs [--all|<region>]
+# print list of AWS security group ids
+aws.sgs () {
+    local cmd=ec2.describe-security-groups
+    local query=.SecurityGroups[].GroupId
+    local region=$1
+
+    util.list $cmd $query $region
+}

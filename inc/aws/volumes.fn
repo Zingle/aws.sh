@@ -1,0 +1,9 @@
+# aws.volumes [--all|<region>]
+# print list of AWS volume ids
+aws.volumes () {
+    local cmd=ec2.describe-volumes
+    local query=.Volumes[].VolumeId
+    local region=$1
+
+    util.list $cmd $query $region
+}

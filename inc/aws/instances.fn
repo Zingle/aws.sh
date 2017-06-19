@@ -1,0 +1,9 @@
+# aws.instances [--all|<region>]
+# print list of AWS instance ids
+aws.instances () {
+    local cmd=ec2.describe-instances
+    local query=.Reservations[].Instances[].InstanceId
+    local region=$1
+
+    util.list $cmd $query $region
+}
