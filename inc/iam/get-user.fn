@@ -1,0 +1,5 @@
+# iam.get-user
+# print JSON document describing the current AWS user
+iam.get-user () {
+    aws iam get-user | jq .
+}
