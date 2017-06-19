@@ -1,0 +1,12 @@
+# ec2.describe-volumes [<region>] [<AWSOPTS>]
+# print JSON document describing volumes within a region
+ec2.describe-volumes () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 describe-volumes --region $region "$@"
+}

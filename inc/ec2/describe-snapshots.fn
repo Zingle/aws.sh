@@ -1,0 +1,12 @@
+# ec2.describe-snapshots [<region>] [<AWSOPTS>]
+# print JSON document describing snapshots within a region
+ec2.describe-snapshots () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 describe-snapshots --region $region "$@"
+}

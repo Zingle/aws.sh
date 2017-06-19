@@ -1,0 +1,12 @@
+# ec2.describe-instances [<region>] [<AWSOPTS>]
+# print JSON document describing instances within a region
+ec2.describe-instances () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 describe-instances --region $region "$@"
+}

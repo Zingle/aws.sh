@@ -1,0 +1,12 @@
+# ec2.describe-images [<region>] [<AWSOPTS>]
+# print JSON document describing images within a region
+ec2.describe-images () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    aws ec2 describe-images --region $region "$@"
+}

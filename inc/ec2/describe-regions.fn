@@ -1,0 +1,5 @@
+# ec2.describe-regions [<AWSOPTS>]
+# print JSON document describing AWS regions
+ec2.describe-regions () {
+    aws ec2 describe-regions --region us-east-1 "$@"
+}
