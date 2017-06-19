@@ -1,0 +1,5 @@
+# s3.cp <path> <path>
+# copy file into, out of, or within S3; at least one path should be S3 URL
+s3.cp () {
+    aws s3 cp --sse AES256 "$1" "$2"
+}
