@@ -1,0 +1,5 @@
+# util.snapshot <id>
+# return success if id is a snapshot id
+util.snapshot () {
+    test "$(util.type "$1")" == snapshot
+}

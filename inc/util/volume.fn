@@ -1,0 +1,5 @@
+# util.volume <id>
+# return success if id is a volume id
+util.volume () {
+    test "$(util.type "$1")" == volume
+}

@@ -1,0 +1,5 @@
+# util.vpc <id>
+# return success if id is a VPC id
+util.vpc () {
+    test "$(util.type "$1")" == vpc
+}

@@ -1,0 +1,19 @@
+# util.type <id>
+# print the resource type of an AWS id
+util.type () {
+    local id="$1"
+
+    case "$1" in
+        ami-*)                      echo ami;       return;;
+        i-*)                        echo instance;  return;;
+        sg-*)                       echo sg;        return;;
+        snap-*)                     echo snapshot;  return;;
+        vol-*)                      echo volume;    return;;
+        vpc-*)                      echo vpc;       return;;
+        [a-z][a-z]-*-[0-9])         echo region;    return;;
+        [a-z][a-z]-*-[0-9][a-z])    echo zone;      return;;
+    esac
+
+    echo invalid id "$id" >&2
+    return 1
+}

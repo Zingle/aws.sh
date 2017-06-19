@@ -1,0 +1,12 @@
+# util.ident [<region>] id
+# generate and print qualified identifier for an id
+util.ident () {
+    local region=$(metadata.region)
+
+    if util.region "$1"; then
+        region="$1"
+        shift
+    fi
+
+    echo "@$region:$1"
+}

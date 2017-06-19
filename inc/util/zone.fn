@@ -1,0 +1,5 @@
+# util.zone <id>
+# return success if id is an availability zone id
+util.zone () {
+    test "$(util.type "$1")" == zone
+}

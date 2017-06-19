@@ -1,0 +1,5 @@
+# util.region <id>
+# return success if id is a region id
+util.region () {
+    test -n "$1" && test "$(util.type "$1")" == region
+}

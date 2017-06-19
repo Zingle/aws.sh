@@ -1,0 +1,5 @@
+# util.instance <id>
+# return success if id is an instance id
+util.instance () {
+    test "$(util.type "$1")" == instance
+}

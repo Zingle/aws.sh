@@ -1,0 +1,20 @@
+# util.list <cmd> <query> [--all|<region>] [<AWSOPTS>]
+# execute an AWS command and run results through jq query
+util.list () {
+    local cmd="$1"
+    local query="$2"
+    local region
+
+    shift 2
+
+    if [ "$1" == "--all" ]; then
+        shift
+        for region in $(aws.regions); do
+            util.list "$cmd" "$query" $region "$@"
+        done
+    elif util.region "$1"; then
+        $cmd "$@" | jq -r "$query"
+    else
+        $cmd $(metadata.region) "$@" | jq -r "$query"
+    fi
+}

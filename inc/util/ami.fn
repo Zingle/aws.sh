@@ -1,0 +1,5 @@
+# util.ami <id>
+# return success if id is an AMI id
+util.ami () {
+    test "$(util.type "$1")" == ami
+}

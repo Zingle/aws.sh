@@ -1,0 +1,5 @@
+# util.sg <id>
+# return success if id is a security group id
+util.sg () {
+    test "$(util.type "$1")" == sg
+}
