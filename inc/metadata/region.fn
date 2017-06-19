@@ -1,0 +1,5 @@
+# metadata.region
+# print the region of the current AWS instance
+metadata.region () {
+    metadata.get | jq -r .region
+}
