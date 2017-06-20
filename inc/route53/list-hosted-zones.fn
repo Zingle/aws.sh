@@ -1,0 +1,5 @@
+# route53.list-hosted-zones
+# print JSON document describing Route 53 hosted zones
+route53.list-hosted-zones () {
+    aws route53 list-hosted-zones
+}

@@ -1,0 +1,8 @@
+# dns.a <fqdn> <ipv4>
+# create or update DNS A record in Route53
+dns.a () {
+    local fqdn="$1"
+    local ipv4="$2"
+
+    dns.upsert "$fqdn" A "$ipv4" 60
+}

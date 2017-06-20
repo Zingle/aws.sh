@@ -1,0 +1,10 @@
+# aws.dns-zone-id <zone>
+# print the hosted zone ID for a Route 53 zone
+dns.zone-id () {
+    local zone="$1"
+    local id
+
+    id=$(route53.list-hosted-zones \
+        | jq -r '.HostedZones[]|select(.Name=="'$zone'.").Id')
+    echo ${id##*/}
+}

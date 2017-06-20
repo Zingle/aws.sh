@@ -1,0 +1,8 @@
+# dns.cname <fqdn> <host>
+# create or update DNS CNAME record in Route53
+dns.cname () {
+    local fqdn="$1"
+    local host="$2"
+
+    dns.upsert "$fqdn" CNAME "$host." 300
+}

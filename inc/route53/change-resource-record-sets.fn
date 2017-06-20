@@ -1,0 +1,10 @@
+# route53.change-resource-record-sets <zone> [<AWSOPTS>]
+# update DNS record in Route53
+route53.change-resource-record-sets () {
+    local zone="$1"
+    shift
+
+    aws route53 change-resource-record-sets \
+        --hosted-zone-id $(dns.zone-id "$zone") \
+        "$@" >/dev/null
+}

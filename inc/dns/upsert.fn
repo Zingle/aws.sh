@@ -1,0 +1,30 @@
+# dns.upsert <fqdn> <type> <value> <ttl>
+# create or delete DNS record in Route53; the zone is assumed to be the fully
+# qualified domain name with its host name stripped
+dns.upsert () {
+    local fqdn="$1"
+    local type="$2"
+    local value="$3"
+    local ttl="$4"
+    local zone="${fqdn#*.}"
+
+    # format values
+    fqdn=\"$fqdn.\"
+    type=\"$type\"
+    value=\"$value\"
+
+    route53.change-resource-record-sets "$zone" \
+        --change-batch '{
+            "Changes": [{
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": '$fqdn',
+                    "Type": '$type',
+                    "TTL": '$ttl',
+                    "ResourceRecords": [{
+                        "Value": '$value'
+                    }]
+                }
+            }]
+        }' >/dev/null
+}

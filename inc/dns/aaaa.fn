@@ -1,0 +1,8 @@
+# dns.aaaa <fqdn> <ipv6>
+# create or update DNS AAAA record in Route53
+dns.aaaa () {
+    local fqdn="$1"
+    local ipv6="$2"
+
+    dns.upsert "$fqdn" AAAA "$ipv6" 60
+}
