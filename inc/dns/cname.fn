@@ -4,5 +4,5 @@ dns.cname () {
     local fqdn="$1"
     local host="$2"
 
-    dns.upsert "$fqdn" CNAME "$host." 300
+    dns.upsert "$fqdn" CNAME "$host." 60
 }

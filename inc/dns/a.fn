@@ -4,5 +4,5 @@ dns.a () {
     local fqdn="$1"
     local ipv4="$2"
 
-    dns.upsert "$fqdn" A "$ipv4" 60
+    dns.upsert "$fqdn" A "$ipv4" 300
 }
