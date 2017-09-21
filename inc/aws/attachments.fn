@@ -1,0 +1,11 @@
+# aws.attachments <instance>
+# print volume attachments for an instance; format is <device>:<volume>
+aws.attachments () {
+    local instance="$1"
+    local region=$(aws.find-region "$instance")
+    local -a attachments
+
+    ec2.describe-volumes $region \
+        | jq '.Volumes[].Attachments[]|select(.InstanceId=="'$instance'")' \
+        | jq -rn '[inputs]|map(.Device+":"+.VolumeId)[]')
+}
