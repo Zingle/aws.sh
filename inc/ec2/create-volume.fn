@@ -1,0 +1,36 @@
+# ec2.create-volume <size> {io1|gp2} [<zone>] [<AWSOPTS>]
+# create volume and print the volume ID
+ec2.create-volume () {
+    local -i size="$1" iops
+    local type="$2"
+    local zone=$(metadata.zone)
+    local region=
+    local iops_opt=
+
+    shift 2
+
+    if util.zone "$1"; then
+        zone="$1"
+        region=${zone:0:-1}
+        shift
+    fi
+
+    case "$type" in
+        io1)
+            iops=$((size * 50))
+            [ $iops -gt 20000 ] && iops=20000
+            iops_opt="--iops $iops";;
+        gp2)
+            :;;
+        *)
+            echo invalid volume type "$type" >&2
+            return 1;;
+    esac
+
+    aws ec2 create-volume \
+        --region $region \
+        --availability-zone $zone \
+        --volume-type $type $iops_opt \
+        --size $size \
+        "$@" | jq -r .VolumeId
+}
