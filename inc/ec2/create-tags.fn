@@ -1,0 +1,23 @@
+# ec2.create-tags <resource> <key>:<value> [<key>:<value> ...] [<AWSOPTS>]
+# create tags for a resource
+ec2.create-tags () {
+    local resource="$1"
+    local region=$(aws.find-region "$resource")
+    local -a tags=()
+
+    shift
+
+    while [ $# -gt 0 ] && [ "${1:0:1}" != "-" ]; do
+        tags+=("$1")
+        shift
+    done
+
+    tags=("${tags[@]/#/Key=}")
+    tags=("${tags[@]/:/,Value=}")
+
+    aws ec2 create-tags \
+        --region $region \
+        --resource $resource \
+        --tags "${tags[@]}" \
+        "$@"
+}
