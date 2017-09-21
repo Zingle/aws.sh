@@ -7,5 +7,5 @@ aws.attachments () {
 
     ec2.describe-volumes $region \
         | jq '.Volumes[].Attachments[]|select(.InstanceId=="'$instance'")' \
-        | jq -rn '[inputs]|map(.Device+":"+.VolumeId)[]')
+        | jq -rn '[inputs]|map(.Device+":"+.VolumeId)[]'
 }
