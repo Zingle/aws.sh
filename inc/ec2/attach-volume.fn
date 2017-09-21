@@ -1,0 +1,54 @@
+# ec2.attach-volume <volume> <instance> [<device>]
+# attach a volume to an instance and print the device path
+ec2.attach-volume () {
+    local volume="$1"
+    local instance="$2"
+    local device="$3"
+    local vregion=$(aws.find-region "$volume")
+    local iregion=$(aws.find-region "$instance")
+    local region d
+    local -a attachments devices devs
+
+    if [ -z "$vregion" ]; then
+        echo could not find region for "$vregion" >&2
+        return 1
+    fi
+
+    if [ -z "$iregion" ]; then
+        echo could not find region for "$instance" >&2
+        return 1
+    fi
+
+    if [ "$vregion" != "$iregion" ]; then
+        echo "$volume" in $vregion but "$instance" in $iregion >&2
+        return 1
+    fi
+
+    if [ -z "$device" ]; then
+        attachments=("$(aws.attachments "$instance")")
+        devices=("${attachments[*]%%:*}")
+        mapfile -t devs < <(for d in "$devices"; do echo ${d: -1}; done)
+
+        # loop to find first available device
+        for d in {a..z}; do
+            if ! echo "$devices" | grep -q $d[0-9]\\?\$; then
+                device=/dev/xvd$d
+                break;
+            fi
+        done
+    fi
+
+    if [ -z "$device" ]; then
+        echo could not find available device for "$instance" >&2
+        return 1
+    fi
+
+    region=$iregion
+
+    aws ec2 attach-volume \
+        --region $region \
+        --volume-id $volume \
+        --instance-id $instance \
+        --device $device \
+        | jq -r .Device
+}
