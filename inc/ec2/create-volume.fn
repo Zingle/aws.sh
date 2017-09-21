@@ -9,11 +9,12 @@ ec2.create-volume () {
 
     shift 2
 
-    if util.zone "$1"; then
+    if util.zone "$1" 2>/dev/null; then
         zone="$1"
-        region=${zone:0:-1}
         shift
     fi
+
+    region=${zone:0:-1}
 
     case "$type" in
         io1)
