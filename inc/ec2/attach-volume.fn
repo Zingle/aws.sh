@@ -7,7 +7,7 @@ ec2.attach-volume () {
     local vregion=$(aws.find-region "$volume")
     local iregion=$(aws.find-region "$instance")
     local region d
-    local -a attachments devices devs
+    local -a attachments devices
 
     if [ -z "$vregion" ]; then
         echo could not find region for "$vregion" >&2
@@ -27,7 +27,6 @@ ec2.attach-volume () {
     if [ -z "$device" ]; then
         attachments=("$(aws.attachments "$instance")")
         devices=("${attachments[*]%%:*}")
-        mapfile -t devs < <(for d in "$devices"; do echo ${d: -1}; done)
 
         # loop to find first available device
         for d in {a..z}; do
