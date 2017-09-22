@@ -25,12 +25,12 @@ ec2.attach-volume () {
     fi
 
     if [ -z "$device" ]; then
-        attachments=("$(aws.attachments "$instance")")
-        devices=("${attachments[*]%%:*}")
+        attachments=($(aws.attachments "$instance"))
+        devices=(${attachments[*]%%:*})
 
         # loop to find first available device
         for d in {a..z}; do
-            if ! echo "${devices[@]}" | grep -q $d[0-9]\\?\$; then
+            if ! (IFS=$'\n';echo "${devices[*]}") | grep -q $d[0-9]\\?\$; then
                 device=/dev/xvd$d
                 break;
             fi
